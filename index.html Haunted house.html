@@ -1934,5 +1934,14 @@ document.getElementById('themeToggle').textContent = theme==='dark' ? 'â˜¾' : 'â
 applyI18n();
 goTo('home');
 </script>
+  <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js")
+      .then(() => console.log("Service Worker registered successfully"))
+      .catch((error) => console.error("Service Worker registration failed:", error));
+  });
+}
+</script>
 </body>
 </html>
