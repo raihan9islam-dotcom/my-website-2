@@ -1943,5 +1943,176 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+  <!-- HAUNTED HOUSE - PWA INSTALL SYSTEM -->
+<style>
+  #installAppBtn {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 999px;
+    padding: 12px 18px;
+    background: rgba(10,10,10,0.92);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+    backdrop-filter: blur(12px);
+  }
+
+  #installAppPopup {
+    position: fixed;
+    left: 50%;
+    bottom: 80px;
+    transform: translateX(-50%);
+    width: min(90%, 380px);
+    z-index: 10000;
+    display: none;
+    padding: 22px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 20px;
+    background: rgba(15,15,15,0.96);
+    color: #fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(18px);
+  }
+
+  #installAppPopup h3 {
+    margin: 0 35px 8px 0;
+    font-size: 20px;
+  }
+
+  #installAppPopup p {
+    margin: 0 0 18px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    font-size: 14px;
+  }
+
+  #installNowBtn {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    padding: 13px;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  #closeInstallPopup {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    #installAppBtn {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      width: calc(100% - 24px);
+    }
+
+    #installAppPopup {
+      bottom: 70px;
+    }
+  }
+</style>
+
+<button id="installAppBtn" type="button">
+  📱 Install Mobile App
+</button>
+
+<div id="installAppPopup">
+  <button id="closeInstallPopup" type="button" aria-label="Close">
+    ×
+  </button>
+
+  <h3>📱 Install HAUNTED HOUSE</h3>
+
+  <p>
+    Add HAUNTED HOUSE to your Home Screen for a faster app-like experience.
+  </p>
+
+  <button id="installNowBtn" type="button">
+    Install App
+  </button>
+</div>
+
+<script>
+  let deferredInstallPrompt = null;
+
+  const installBtn = document.getElementById("installAppBtn");
+  const installPopup = document.getElementById("installAppPopup");
+  const installNowBtn = document.getElementById("installNowBtn");
+  const closeInstallPopup = document.getElementById("closeInstallPopup");
+
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+
+      const result = await deferredInstallPrompt.userChoice;
+
+      if (result.outcome === "accepted") {
+        deferredInstallPrompt = null;
+      }
+    } else {
+      installPopup.style.display = "block";
+    }
+  });
+
+  installNowBtn.addEventListener("click", async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+
+      const result = await deferredInstallPrompt.userChoice;
+
+      if (result.outcome === "accepted") {
+        deferredInstallPrompt = null;
+        installPopup.style.display = "none";
+      }
+    } else {
+      alert(
+        "To install HAUNTED HOUSE, use your browser menu and choose 'Add to Home Screen' or 'Install App'."
+      );
+    }
+  });
+
+  closeInstallPopup.addEventListener("click", () => {
+    installPopup.style.display = "none";
+  });
+
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      const popupClosed = sessionStorage.getItem("hauntedInstallPopupClosed");
+
+      if (!popupClosed) {
+        installPopup.style.display = "block";
+      }
+    }, 1500);
+  });
+
+  closeInstallPopup.addEventListener("click", () => {
+    sessionStorage.setItem("hauntedInstallPopupClosed", "true");
+  });
+
+  window.addEventListener("appinstalled", () => {
+    installPopup.style.display = "none";
+    installBtn.style.display = "none";
+  });
+</script>
 </body>
 </html>
