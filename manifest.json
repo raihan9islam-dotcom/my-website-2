@@ -1,10 +1,23 @@
 {
-  "name": "Haunted House",
-  "short_name": "Haunted House",
+  "name": "HAUNTED HOUSE",
+  "short_name": "HAUNTED HOUSE",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
-  "description": "Haunted House website",
-  "icons": []
+  "description": "HAUNTED HOUSE — Premium Pizza & Dining",
+  "icons": [
+    {
+      "src": "HH%20LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "HH%20LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
